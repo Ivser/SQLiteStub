@@ -1,4 +1,4 @@
-package com.github.ivser.sqlitestub.model;
+package com.github.ivser.sqlitestub.model.sqlite;
 
 import android.provider.BaseColumns;
 

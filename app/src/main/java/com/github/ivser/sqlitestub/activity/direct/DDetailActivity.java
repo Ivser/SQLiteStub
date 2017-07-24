@@ -1,28 +1,29 @@
-package com.github.ivser.sqlitestub.provider;
+package com.github.ivser.sqlitestub.activity.direct;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.EditText;
 
 import com.github.ivser.sqlitestub.R;
-import com.github.ivser.sqlitestub.model.ProductEntry;
-import com.github.ivser.sqlitestub.provider.ProductContentProvider;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
+import com.github.ivser.sqlitestub.provider.direct.DataProvider;
 
 /**
- * CPDetailActivity
+ * DDetailActivity
  * <p>
  * Created by SIvanov on 21.07.2017.
  */
 
-public class CPDetailActivity extends Activity {
+public class DDetailActivity extends Activity {
 
-    private Uri uri;
+    private long id;
     private EditText titleText;
     private EditText descriptionText;
+    private DataProvider manager;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,23 +33,22 @@ public class CPDetailActivity extends Activity {
         titleText = (EditText)findViewById(R.id.title);
         descriptionText = (EditText)findViewById(R.id.description);
 
+        manager = new DataProvider(this);
+
         if (savedInstanceState != null) {
-            uri = (Uri) savedInstanceState.getParcelable(ProductContentProvider.CONTENT_ITEM_TYPE);
+            id = savedInstanceState.getLong(ProductEntry._ID);
         }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            uri = extras.getParcelable(ProductContentProvider.CONTENT_ITEM_TYPE);
+            id = extras.getLong(ProductEntry._ID);
         }
 
-        if (uri != null) {
-            readData(uri);
-        }
+        readData();
     }
 
-    private void readData(Uri uri) {
-        String[] projection = {ProductEntry.COLUMN_NAME_TITLE, ProductEntry.COLUMN_NAME_DESCRIPTION};
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+    private void readData() {
+        Cursor cursor = manager.readProduct(id);
         if (cursor != null) {
             cursor.moveToFirst();
 
@@ -64,7 +64,7 @@ public class CPDetailActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveProduct();
-        outState.putParcelable(ProductContentProvider.CONTENT_ITEM_TYPE, uri);
+        outState.putLong(ProductEntry._ID, id);
     }
 
     @Override
@@ -85,9 +85,8 @@ public class CPDetailActivity extends Activity {
         values.put(ProductEntry.COLUMN_NAME_TITLE, title);
         values.put(ProductEntry.COLUMN_NAME_DESCRIPTION, description);
 
-        if (uri == null) {
-            getContentResolver().update(uri, values, null, null);
-        }
+        manager.updateProduct(values, id);
     }
+
 
 }

@@ -1,8 +1,7 @@
-package com.github.ivser.sqlitestub.direct;
+package com.github.ivser.sqlitestub.activity.direct;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,8 +11,10 @@ import android.widget.ListView;
 
 import com.github.ivser.sqlitestub.R;
 import com.github.ivser.sqlitestub.data.ProductGenerator;
-import com.github.ivser.sqlitestub.model.Product;
-import com.github.ivser.sqlitestub.model.ProductEntry;
+import com.github.ivser.sqlitestub.model.sqlite.Product;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
+import com.github.ivser.sqlitestub.provider.direct.DataProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,14 +25,18 @@ public class DMasterActivity extends AppCompatActivity {
     private DataProvider manager;
     private ArrayAdapter<String> adapter;
     private List<Long> ids;
+    private List<String> titles = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
-        manager = new DataProvider(this);
+        list = (ListView) findViewById(R.id.data);
 
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.title, readData());
+        manager = new DataProvider(this);
+        readData();
+        adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.title, titles);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,10 +49,10 @@ public class DMasterActivity extends AppCompatActivity {
         });
     }
 
-    private List<String> readData() {
+    private void readData() {
         Cursor cursor = manager.readAllProducts();
         ids = new ArrayList<>();
-        List<String> titles = new ArrayList<>();
+        titles.clear();
         while(cursor.moveToNext()) {
             Product product = new Product();
             ids.add(cursor.getLong(cursor.getColumnIndexOrThrow(ProductEntry._ID)));
@@ -56,7 +61,6 @@ public class DMasterActivity extends AppCompatActivity {
             titles.add(product.title);
         }
         cursor.close();
-        return titles;
     }
 
     @Override
@@ -68,10 +72,12 @@ public class DMasterActivity extends AppCompatActivity {
     public void onAddClick(View view) {
         lastId = manager.addProduct(ProductGenerator.getInstance().next());
         readData();
+        adapter.notifyDataSetChanged();
     }
 
     public void onRemoveLastClick(View view) {
         manager.deleteProduct(lastId);
         readData();
+        adapter.notifyDataSetChanged();
     }
 }

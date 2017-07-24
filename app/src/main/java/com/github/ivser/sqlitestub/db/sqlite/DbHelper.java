@@ -1,9 +1,9 @@
-package com.github.ivser.sqlitestub.db;
+package com.github.ivser.sqlitestub.db.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.github.ivser.sqlitestub.model.ProductEntry;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
 
 /**
  * sqliteTest

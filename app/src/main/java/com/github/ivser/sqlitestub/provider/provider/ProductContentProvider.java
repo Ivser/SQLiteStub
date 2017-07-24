@@ -1,4 +1,4 @@
-package com.github.ivser.sqlitestub.provider;
+package com.github.ivser.sqlitestub.provider.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.github.ivser.sqlitestub.db.DbHelper;
-import com.github.ivser.sqlitestub.model.ProductEntry;
+import com.github.ivser.sqlitestub.db.sqlite.DbHelper;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
 
 import java.util.Arrays;
 import java.util.HashSet;

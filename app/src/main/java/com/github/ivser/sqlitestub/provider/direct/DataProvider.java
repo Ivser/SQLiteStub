@@ -1,13 +1,13 @@
-package com.github.ivser.sqlitestub.direct;
+package com.github.ivser.sqlitestub.provider.direct;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.github.ivser.sqlitestub.db.DbHelper;
-import com.github.ivser.sqlitestub.model.Product;
-import com.github.ivser.sqlitestub.model.ProductEntry;
+import com.github.ivser.sqlitestub.db.sqlite.DbHelper;
+import com.github.ivser.sqlitestub.model.sqlite.Product;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
 
 /**
  * DataProvider

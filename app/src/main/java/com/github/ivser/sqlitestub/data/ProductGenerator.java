@@ -1,6 +1,6 @@
 package com.github.ivser.sqlitestub.data;
 
-import com.github.ivser.sqlitestub.model.Product;
+import com.github.ivser.sqlitestub.model.sqlite.Product;
 
 /**
  * SQLiteStub

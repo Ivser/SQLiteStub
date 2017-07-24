@@ -1,17 +1,16 @@
-package com.github.ivser.sqlitestub.direct;
+package com.github.ivser.sqlitestub.activity.room;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.EditText;
 
 import com.github.ivser.sqlitestub.R;
-import com.github.ivser.sqlitestub.model.Product;
-import com.github.ivser.sqlitestub.model.ProductEntry;
-import com.github.ivser.sqlitestub.provider.ProductContentProvider;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
+import com.github.ivser.sqlitestub.db.room.RoomDb;
+import com.github.ivser.sqlitestub.model.room.Product;
+
+import java.util.List;
 
 /**
  * DDetailActivity
@@ -19,13 +18,13 @@ import com.github.ivser.sqlitestub.provider.ProductContentProvider;
  * Created by SIvanov on 21.07.2017.
  */
 
-public class DDetailActivity extends Activity {
+public class RDetailActivity extends Activity {
 
     private long id;
     private EditText titleText;
     private EditText descriptionText;
-    private DataProvider manager;
-
+    private RoomDb database;
+    private Product currentProduct;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class DDetailActivity extends Activity {
         titleText = (EditText)findViewById(R.id.title);
         descriptionText = (EditText)findViewById(R.id.description);
 
-        manager = new DataProvider(this);
+        database = RoomDb.getDatabase(getApplicationContext());
 
         if (savedInstanceState != null) {
             id = savedInstanceState.getLong(ProductEntry._ID);
@@ -50,16 +49,11 @@ public class DDetailActivity extends Activity {
     }
 
     private void readData() {
-        Cursor cursor = manager.readProduct(id);
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-            titleText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(ProductEntry.COLUMN_NAME_TITLE)));
-            descriptionText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(ProductEntry.COLUMN_NAME_DESCRIPTION)));
-
-            cursor.close();
+        List<Product> products = database.productModel().getProduct(id);
+        if (products.size() > 0) {
+            currentProduct = products.get(0);
+            titleText.setText(currentProduct.title);
+            descriptionText.setText(currentProduct.description);
         }
     }
 
@@ -83,11 +77,10 @@ public class DDetailActivity extends Activity {
             return;
         }
 
-        ContentValues values = new ContentValues();
-        values.put(ProductEntry.COLUMN_NAME_TITLE, title);
-        values.put(ProductEntry.COLUMN_NAME_DESCRIPTION, description);
+        currentProduct.title = title;
+        currentProduct.description = description;
 
-        manager.updateProduct(values, id);
+        database.productModel().updateProduct(currentProduct);
     }
 
 

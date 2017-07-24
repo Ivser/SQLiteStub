@@ -1,4 +1,4 @@
-package com.github.ivser.sqlitestub.provider;
+package com.github.ivser.sqlitestub.activity.provider;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -16,8 +16,9 @@ import android.widget.ListView;
 
 import com.github.ivser.sqlitestub.R;
 import com.github.ivser.sqlitestub.data.ProductGenerator;
-import com.github.ivser.sqlitestub.model.Product;
-import com.github.ivser.sqlitestub.model.ProductEntry;
+import com.github.ivser.sqlitestub.model.sqlite.Product;
+import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
+import com.github.ivser.sqlitestub.provider.provider.ProductContentProvider;
 
 public class CPMasterActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 

@@ -10,11 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".provider.CPMasterActivity"/>
-        <activity android:name=".provider.CPDetailActivity"/>
+        <activity android:name=".activity.provider.CPMasterActivity"/>
+        <activity android:name=".activity.direct.provider.CPDetailActivity"/>
+
+        <activity android:name=".activity.direct.DMasterActivity"/>
+        <activity android:name=".activity.direct.DDetailActivity"/>
+
+        <activity android:name=".activity.room.RMasterActivity"/>
+        <activity android:name=".activity.room.RDetailActivity"/>
 
         <provider
-            android:name=".provider.ProductContentProvider"
+            android:name=".provider.provider.ProductContentProvider"
             android:authorities="com.github.ivser.sqlitestub">
         </provider>
 

@@ -1,7 +1,4 @@
-package com.github.ivser.sqlitestub.model;
-
-import android.provider.BaseColumns;
-
+package com.github.ivser.sqlitestub.model.sqlite;
 /**
  * sqliteTest
  * <p>
@@ -10,8 +7,9 @@ import android.provider.BaseColumns;
 
 public class Product {
 
-    public Product() {}
-
     public String title;
     public String description;
+
+    public Product() {
+    }
 }
