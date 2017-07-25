@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,7 +20,6 @@ import java.util.List;
 public class DMasterActivity extends AppCompatActivity {
 
     private long lastId = 0;
-    private ListView list;
     private DataProvider manager;
     private ArrayAdapter<String> adapter;
     private List<Long> ids;
@@ -32,20 +30,17 @@ public class DMasterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
-        list = (ListView) findViewById(R.id.data);
+        ListView list = (ListView) findViewById(R.id.data);
 
         manager = new DataProvider(this);
         readData();
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.title, titles);
+        adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.title, titles);
         list.setAdapter(adapter);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(DMasterActivity.this, DDetailActivity.class);
-                i.putExtra(ProductEntry._ID, ids.get(position));
-                startActivity(i);
-            }
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            Intent i = new Intent(DMasterActivity.this, DDetailActivity.class);
+            i.putExtra(ProductEntry._ID, ids.get(position));
+            startActivity(i);
         });
     }
 

@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.ivser.sqlitestub.R;
 import com.github.ivser.sqlitestub.data.RoomProductGenerator;
-import com.github.ivser.sqlitestub.model.sqlite.ProductEntry;
 import com.github.ivser.sqlitestub.db.room.RoomDb;
 import com.github.ivser.sqlitestub.model.room.Product;
 
@@ -26,7 +24,6 @@ import java.util.List;
 public class RMasterActivity extends Activity {
 
     private RoomDb database;
-    private ListView list;
     private ArrayAdapter<String> adapter;
     private List<Product> products;
     private List<String> titles = new ArrayList<>();
@@ -35,20 +32,17 @@ public class RMasterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master);
-        list = (ListView) findViewById(R.id.data);
+        ListView list = (ListView) findViewById(R.id.data);
         database = RoomDb.getDatabase(getApplicationContext());
 
         readData();
-        adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.title, titles);
+        adapter = new ArrayAdapter<>(this, R.layout.list_item, R.id.title, titles);
         list.setAdapter(adapter);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(RMasterActivity.this, RDetailActivity.class);
-                i.putExtra(ProductEntry._ID, products.get(position).id);
-                startActivity(i);
-            }
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            Intent i = new Intent(RMasterActivity.this, RDetailActivity.class);
+            i.putExtra("ID", products.get(position).id);
+            startActivity(i);
         });
     }
 

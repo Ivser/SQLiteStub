@@ -33,7 +33,7 @@ public class CPDetailActivity extends Activity {
         descriptionText = (EditText)findViewById(R.id.description);
 
         if (savedInstanceState != null) {
-            uri = (Uri) savedInstanceState.getParcelable(ProductContentProvider.CONTENT_ITEM_TYPE);
+            uri = savedInstanceState.getParcelable(ProductContentProvider.CONTENT_ITEM_TYPE);
         }
 
         Bundle extras = getIntent().getExtras();

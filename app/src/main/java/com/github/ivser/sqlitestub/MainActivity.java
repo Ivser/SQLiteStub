@@ -8,6 +8,7 @@ import android.view.View;
 import com.github.ivser.sqlitestub.activity.direct.DMasterActivity;
 import com.github.ivser.sqlitestub.activity.provider.CPMasterActivity;
 import com.github.ivser.sqlitestub.activity.room.RMasterActivity;
+import com.github.ivser.sqlitestub.activity.rxroom.RxRMasterActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,5 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onRoomUsageBtnClick(View v) {
         startActivity(new Intent(this, RMasterActivity.class));
+    }
+
+    public void onRxRoomUsageBtnClick(View v) {
+        startActivity(new Intent(this, RxRMasterActivity.class));
     }
 }

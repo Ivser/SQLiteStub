@@ -1,15 +1,14 @@
-package com.github.ivser.sqlitestub.activity.room;
+package com.github.ivser.sqlitestub.activity.rxroom;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.github.ivser.sqlitestub.R;
-import com.github.ivser.sqlitestub.db.room.RoomDb;
+import com.github.ivser.sqlitestub.db.rxroom.RxRoomDb;
 import com.github.ivser.sqlitestub.model.room.Product;
-
-import java.util.List;
 
 /**
  * DDetailActivity
@@ -17,12 +16,14 @@ import java.util.List;
  * Created by SIvanov on 21.07.2017.
  */
 
-public class RDetailActivity extends Activity {
+public class RxRDetailActivity extends Activity {
+
+    private static final String TAG = RxRDetailActivity.class.getName();
 
     private long id;
     private EditText titleText;
     private EditText descriptionText;
-    private RoomDb database;
+    private RxRoomDb database;
     private Product currentProduct;
 
     @Override
@@ -33,7 +34,7 @@ public class RDetailActivity extends Activity {
         titleText = (EditText)findViewById(R.id.title);
         descriptionText = (EditText)findViewById(R.id.description);
 
-        database = RoomDb.getDatabase(getApplicationContext());
+        database = RxRoomDb.getDatabase(getApplicationContext());
 
         if (savedInstanceState != null) {
             id = savedInstanceState.getLong("ID");
@@ -48,12 +49,11 @@ public class RDetailActivity extends Activity {
     }
 
     private void readData() {
-        List<Product> products = database.productModel().getProduct(id);
-        if (products.size() > 0) {
-            currentProduct = products.get(0);
+        database.productModel().getProduct(id).subscribe(product -> {
+            currentProduct = product;
             titleText.setText(currentProduct.title);
             descriptionText.setText(currentProduct.description);
-        }
+        }, t -> Log.e(TAG, "Failed to get products", t));
     }
 
     protected void onSaveInstanceState(Bundle outState) {

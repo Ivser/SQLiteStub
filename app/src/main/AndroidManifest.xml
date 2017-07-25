@@ -11,13 +11,16 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".activity.provider.CPMasterActivity"/>
-        <activity android:name=".activity.direct.provider.CPDetailActivity"/>
+        <activity android:name=".activity.provider.CPDetailActivity"/>
 
         <activity android:name=".activity.direct.DMasterActivity"/>
         <activity android:name=".activity.direct.DDetailActivity"/>
 
         <activity android:name=".activity.room.RMasterActivity"/>
         <activity android:name=".activity.room.RDetailActivity"/>
+
+        <activity android:name=".activity.rxroom.RxRMasterActivity"/>
+        <activity android:name=".activity.rxroom.RxRDetailActivity"/>
 
         <provider
             android:name=".provider.provider.ProductContentProvider"
